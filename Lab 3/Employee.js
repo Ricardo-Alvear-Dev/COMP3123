@@ -29,17 +29,14 @@ let employees = [
   },
 ];
 
-// Return all employee details
 function getAllEmployees() {
   return employees;
 }
 
-// Return formatted names in ascending order
 function getEmployeeNames() {
   return employees.map((emp) => `${emp.firstName} ${emp.lastName}`).sort();
 }
 
-// Calculate total salary sum
 function getTotalSalary() {
   const total = employees.reduce((sum, emp) => sum + emp.Salary, 0);
   return { total_salary: total };
