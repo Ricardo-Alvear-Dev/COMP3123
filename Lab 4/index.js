@@ -1,98 +1,36 @@
-/*
-    Purpose: Express framework with Node.js
-    - Try GET, POST, PUT, DELETE methods
-    - use routes instead of pure paths - like an API in your own software's backend
-    - Compare and contrast Get query vs params
-*/
-
 const express = require("express");
 const app = express();
 
-const SERVER_PORT = process.env.PORT || 3000;
-
-// ------ Middleware setup for each of our needs of the web server
-
-// Middleware setup for each of our needs on the web server
-// Serving static files
-// Notice there is no real folder in our filesystem called static
-// But this will be path we can access in the URL
-app.use("/static", express.static("public"));
-
-// Serving JSON
 app.use(express.json());
 
-// Serving traditional HTML body
-// if we add the object parameter with property extended: true
-// we can use the library as instead of library querystring
-app.use(express.urlencoded({ extended: true }));
+// Serve static files from the /public directory
+app.use(express.static("public"));
 
-// ---------------------------------
-
-// http://localhost:3000
-app.get("/", (req, res) => {
-  res.send("<h1>Welcome to the root path of the server</h1>");
-});
-
+// GET /hello - Returns plain text "Hello Express JS"
 app.get("/hello", (req, res) => {
-  res.status(200).send("<h1>Welcome to the path of /hello/</h1>");
+  res.type("text/plain").send("Hello Express JS");
 });
 
-app.get("/college", (req, res) => {
-  const college = {
-    method: "GET", // This was not anything built in, we created this property
-    name: "George Brown College",
-    location: "Toronto",
-    established: 1957,
-  };
-
-  res.json(college);
+// GET /user - Query parameters with defaults
+app.get("/user", (req, res) => {
+  const firstname = req.query.firstname || "Ricardo";
+  const lastname = req.query.lastname || "Alvear";
+  res.json({ firstname, lastname });
 });
 
-app.get("/students/:name/:age/:city", (req, res) => {
-  console.log(req.params);
-  if (!req.params.name || !req.params.age || !req.params.city)
-    return res.status(400).json({ error: "Missing path parameters" });
-
-  const name = req.params.name;
-  const age = req.params.age;
-  const city = req.params.city;
-
-  res.json({ student_name: name, student_age: age, student_city: city });
+// POST /user/:firstname/:lastname - Path parameters
+app.post("/user/:firstname/:lastname", (req, res) => {
+  const { firstname, lastname } = req.params;
+  res.json({ firstname, lastname });
 });
 
-app.post("/college", (req, res) => {
-  const college = {
-    method: "POST", // This was not anything built in, we created this property
-    name: "George Brown College",
-    location: "Toronto",
-    established: 1957,
-  };
-
-  res.json(college);
+// POST /users - Accepts JSON array of user objects
+app.post("/users", (req, res) => {
+  const users = Array.isArray(req.body) ? req.body : [];
+  res.json(users);
 });
 
-app.put("/college", (req, res) => {
-  const college = {
-    method: "PUT", // This was not anything built in, we created this property
-    name: "George Brown College",
-    location: "Toronto",
-    established: 1957,
-  };
-
-  res.json(college);
-});
-
-app.delete("/college", (req, res) => {
-  const college = {
-    method: "DELETE", // This was not anything built in, we created this property
-    name: "George Brown College",
-    location: "Toronto",
-    established: 1957,
-  };
-
-  res.json(college);
-});
-
-app.listen(SERVER_PORT, () => {
-  console.log(`Server is running on http://localhost:${SERVER_PORT}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
