@@ -1,0 +1,28 @@
+{
+  "name": "lab5_express",
+  "version": "1.0.0",
+  "description": "Using the express framework for the routes in our server",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ricardo-Alvear-Dev/COMP3123.git"
+  },
+  "author": "Ricardo Alvear",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ricardo-Alvear-Dev/COMP3123/issues"
+  },
+  "homepage": "https://github.com/Ricardo-Alvear-Dev/COMP3123#readme",
+  "dependencies": {
+    "dateformat": "^3.0.3",
+    "express": "^4.17.1",
+    "nodemon": "^3.1.14"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
